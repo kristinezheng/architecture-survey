@@ -13,7 +13,9 @@
     <script src="https://unpkg.com/@jspsych/plugin-image-keyboard-response@1.1.2"></script>
     <script src="https://unpkg.com/@jspsych/plugin-image-button-response@1.1.2"></script>
     <script src="https://unpkg.com/@jspsych/plugin-categorize-image@1.1.2"></script>
+    <script src="https://unpkg.com/@jspsych/plugin-fullscreen@1.2.0"></script>
     <script src="https://unpkg.com/@jspsych/plugin-html-slider-response@1.1.2"></script> 
+    <script src="https://unpkg.com/@jspsych/plugin-survey-likert@1.1.2"></script>
     <script src='https://ajax.googleapis.com/ajax/libs/jquery/2.2.4/jquery.min.js'></script>
     <script src="util.js"></script>
 </head>
@@ -32,7 +34,7 @@
 
     // The `write_data_to_server` function requires two global variables to be defined:
     // `url_write_data_php` (web location of the write_data.php script) and `output_filename`
-    var url_experiment_dir = 'https://msaddler.scripts.mit.edu/jspsych_tutorial_960/'; // CHANGE
+    var url_experiment_dir = 'https://kxzheng.scripts.mit.edu/architecture-survey/'; // CHANGE
     var url_write_data_php = url_experiment_dir + 'write_data.php';
 
     // randomize subject id
@@ -62,20 +64,104 @@
         type: jsPsychHtmlButtonResponse, // This trial will use the "html-button-response" plugin
         stimulus: [
             '<h2>Architecture Preference Survey</h2>' +
-            '<p>In this experiment, you will briefly see images of human faces.</p>' +
-            '<p>Your task is to report if the person pictured was wearing a face mask, ' +
-            'and if so, were they wearing it correctly?</p>'
+            '<p>In this survey, we hope to learn more about your archectural preferences. Your task is to compare different structures and/or rate them. We are doing this solely for the sake of curiosity, feel free to reach out to learn more. </p>' +
+            '<p>Contacts: kxzheng@mit.edu, iyu@mit.edu </p>'
         ],
-        choices: ['Begin experiment'],
+        choices: ['Begin'],
     };
-    timeline.push(first_page);
 
-    // Define some variables that will be shared across all image trials
-    var prompt_str = 'Was the person pictured correctly wearing a face mask?';
-    var choices = ['Correctly wearing mask', 'Incorrectly wearing mask', 'Not wearing mask'];
-    var maintain_aspect_ratio = true;
-    var stimulus_width = 300; // Image width in pixels (null will use native width)
-    var stimulus_duration = 500; // Image presentation duration in ms
+    var enter_fullscreen = {
+        type: jsPsychFullscreen,
+        fullscreen_mode: true,
+        message: '<p>This survey will switch to full screen mode when you press the button below.</p>'
+    }
+
+    timeline.push(first_page,enter_fullscreen);
+
+    var attention_trial = {
+        type: jsPsychHtmlButtonResponse, // This trial will use the "html-button-response" plugin
+        stimulus: [
+            '<p>Please repeat the instructions.</p>'
+        ],
+        choices: ['Continue'],
+    }
+
+    ///// questions about stability, cost, and aesthetics 
+    var comparison_questions = [`<p>Play the following videos: which building is more likely to collapse during an earthquake? </p>
+                                <p><small>Select 1 if the left building is more likely to collapse, 
+                                2-6 for in between, and 7 if the right building is more likely to collapse. Note that all blocks are the same size. </small></p>`,
+                                `<p>Play the following videos: which building seems more expensive cost wise to construct? </p>
+                                <p><small>Select 1 if the left building seems more expensive,
+                                2-6 for in between, and 7 if the right building seems more expensive. Note that all blocks are the same size. </small></p>`,
+                                `<p>Play the following videos: which building's appearance do you prefer aesthetically'? </p>
+                                <p><small>Select 1 if the left building is more aesthetic, 
+                                2-6 for in between, and 7 if the right building is more aesthetic. Note that all blocks are the same size.</small></p>`
+                            ];
+    
+    var left_video_path = `videos/t_tower/t_towers0.mp4`;
+    var right_video_path = `videos/t_tower/t_towers3.mp4`;
+
+    var comparison_trial_likert = {
+        type: jsPsychSurveyLikert,
+        preamble: `${comparison_questions[0]}` + // alterate this question line
+                    `<div id="wrapper"> 
+                    <video id="videoleft" width="400" height="300" poster="images/video.jpg" controls="controls" preload="none" disablepictureinpicture controlsList="nofullscreen nodownload noremoteplayback noplaybackrate"> 
+                        <source type="video/mp4" src="videos/t_tower/t_towers0.mp4" ${left_video_path} /> 
+                    </video>
+                    <video id="videoright" width="400" height="300" poster="images/video.jpg" controls="controls" preload="none" disablepictureinpicture controlsList="nofullscreen nodownload noremoteplayback noplaybackrate"> 
+                        <source type="video/mp4" src="videos/t_tower/t_towers5.mp4" ${right_video_path}}/> 
+                    </video>
+                    <div class="clear"></div> 
+                </div>`,
+        questions: [
+            {
+            prompt: '',//"I like vegetables.", 
+            labels: ['1 (Left)','2','3','4','5','6','7 (Right)']
+            }
+        ]
+        };
+
+    var comparison_trial = {
+        type: jsPsychHtmlSliderResponse,
+        stimulus: `${comparison_questions[0]}` + // alterate this question line
+                    `<div id="wrapper"> 
+                    <video id="videoleft" width="400" height="300" poster="images/video.jpg" controls="controls" preload="none" disablepictureinpicture controlsList="nofullscreen nodownload noremoteplayback noplaybackrate"> 
+                        <source type="video/mp4" src="videos/t_tower/t_towers0.mp4" ${left_video_path} /> 
+                    </video>
+                    <video id="videoright" width="400" height="300" poster="images/video.jpg" controls="controls" preload="none" disablepictureinpicture controlsList="nofullscreen nodownload noremoteplayback noplaybackrate"> 
+                        <source type="video/mp4" src="videos/t_tower/t_towers5.mp4" ${right_video_path}}/> 
+                    </video>
+                    <div class="clear"></div> 
+                </div>`,
+        max: 60,
+        step: 10,
+        require_movement: true,
+        labels: ['1 (Left)','2','3','4','5','6','7 (Right)']
+        };
+
+    timeline.push(comparison_trial);
+
+    ///// question about materials 
+    var mat_video_path = `videos/t_tower/t_towers0.mp4`;
+    var material_trial = {
+        type: jsPsychHtmlButtonResponse,
+        stimulus: `
+                    <p>What material should thia building be made from for most longevity?</p> 
+                    <video id="videoleft" width="500" poster="images/video.jpg" controls="controls" preload="none" disablepictureinpicture controlsList="nofullscreen nodownload noremoteplayback noplaybackrate"> 
+                        <source type="video/mp4" src="videos/t_tower/t_towers0.mp4" ${mat_video_path} /> 
+                    </video>`,
+        choices: ['Wood', 'Metal', 'Glass', 'Brick', 'Concrete'],
+        prompt: ""
+        };
+    
+    timeline.push(material_trial);
+
+    // // Define some variables that will be shared across all image trials
+    // var prompt_str = 'Was the person pictured correctly wearing a face mask?';
+    // var choices = ['Correctly wearing mask', 'Incorrectly wearing mask', 'Not wearing mask'];
+    // var maintain_aspect_ratio = true;
+    // var stimulus_width = 300; // Image width in pixels (null will use native width)
+    // var stimulus_duration = 500; // Image presentation duration in ms
 
     // Programatically prepare a list of variables that will vary by trials
     var timeline_variables_for_trials = [];
@@ -97,7 +183,13 @@
             key_answer: `${condition}`,
         });
     }
+    console.log(full_design);
     console.log(JSON.stringify(timeline_variables_for_trials));
+
+    // programatically make trials
+    var tt_timeline_variables = [];
+    var t_towers = arange(0, 5, 1);
+
 
     example_stim = `<div style="width:500px;">
                 <p>How likely is it that team A will win this match?</p>
@@ -110,6 +202,8 @@
                     <p>6 wins, 4 losses, 11 draws</p>
                 </div>
                 </div>`
+
+    
 
     // Prepare timeline for the individual trials
     var timeline_for_trials = [
@@ -139,8 +233,10 @@
                     </video>
                     <div class="clear"></div> 
                 </div>`,
+            min: 0,
+            max: 7,
             require_movement: true,
-            labels: ['0', '1','2','3','4','5','6','7']
+            labels: ['1 (Left Tower)','2','3','4','5','6','7 (Right Tower)']
         },
 
         // {
@@ -174,15 +270,15 @@
         timeline_variables: timeline_variables_for_trials,
         randomize_order: true,
     };
-    timeline.push(trials);
+    // timeline.push(trials);
 
     var last_page = {
         type: jsPsychHtmlButtonResponse, // This trial will use the "html-button-response" plugin
         stimulus: [
-            '<h2>Press the button below to end experiment.</h2>' +
+            '<h2>Press the button below to end.</h2>' +
             '<p>Thank you for participating!</p>'
         ],
-        choices: ['End experiment'],
+        choices: ['End survey'],
     };
     timeline.push(last_page);
 
