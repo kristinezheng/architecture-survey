@@ -75,9 +75,11 @@
     var first_page = {
         type: jsPsychHtmlButtonResponse, // This trial will use the "html-button-response" plugin
         stimulus: [
-            '<h2>Architecture Preference Survey</h2>' +
-            '<p>In this survey, we hope to learn more about your archectural preferences. Your task is to compare different structures and/or make choices about them. Feel free to reach out to learn more about our project. </p>' +
-            '<p>Contacts: kxzheng@mit.edu, iyu@mit.edu </p>'
+        '<h2>Architecture Preference Survey</h2>' +
+            '<p>In this survey, we hope to learn more about your archectural preferences. Your task is to compare different structures and/or make choices about them. Feel free to reach out to learn more about our project! <b>At the end of this survey, you can write your kerb/email to enter the sandwich raffle.</b> </p>' +
+            '<p>Contacts: kxzheng@mit.edu, iyu@mit.edu </p>' +
+            '<figure><img width="400" src="BU_CS.jpeg" alt="BU Computer Science Building."><figcaption><small>BU Computer Science Department\'s unique architecture.<\small></figcaption></figure>' 
+            
         ],
         choices: ['Begin'],
     };
@@ -208,7 +210,7 @@
         type: jsPsychSurveyMultiSelect,
         questions: [
         {
-        prompt: "Which of the following is true about this survey? (2 correct answers)", 
+        prompt: "To confirm your understanding, which of the following is true about this survey? (2 correct answers)", 
         // name: 'VegetablesLike', 
         options: ['The buildings rotate.','The buildings do not rotate.', 'Concrete was a choice in the previous question.', 'Marble was a choice in the previous question.'], 
         required: true,
@@ -335,7 +337,7 @@
     var last_page = {
         type: jsPsychSurveyHtmlForm,
         preamble: '<p>Thank you for participating! Please click <b>submit survey</b> to finish. </p>',
-        html: '<p> (Optional) To enter the raffle, enter your kerb here:  <input type="text" id="test-resp-box" name="response" size="10" /></p>',
+        html: '<p> (Optional) To enter the raffle, enter your kerb or email here:  <input type="text" id="test-resp-box" name="response" size="10" /></p>',
         autofocus: 'test-resp-box',
         button_label: 'Submit survey'
         };
