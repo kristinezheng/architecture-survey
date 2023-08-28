@@ -37,7 +37,7 @@
     // Initialize the jsPsych object (possibly with arguments: https://www.jspsych.org/7.3/reference/jspsych/)
     var jsPsych = initJsPsych({
         on_finish: function () {
-            jsPsych.data.displayData(); // Print data to screen at the end
+            //jsPsych.data.displayData(); // Print data to screen at the end
             write_data_to_server(); // This function is defined in `util.js`
         },
         show_progress_bar: true,
