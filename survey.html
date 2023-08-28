@@ -5,17 +5,28 @@
     <title>Architecture Survey</title>
     <meta http-equiv="pragma" content="no-cache">
     <link rel="icon" href="data:;base64,iVBORw0KGgo=">
-    <link href="https://unpkg.com/jspsych@7.3.1/css/jspsych.css" rel="stylesheet" type="text/css" />
-    <script src="https://unpkg.com/jspsych@7.3.1"></script>
-    <script src="https://unpkg.com/@jspsych/plugin-preload@1.1.2"></script>
-    <script src="https://unpkg.com/@jspsych/plugin-html-keyboard-response@1.1.2"></script>
-    <script src="https://unpkg.com/@jspsych/plugin-html-button-response@1.1.2"></script>
-    <script src="https://unpkg.com/@jspsych/plugin-image-keyboard-response@1.1.2"></script>
-    <script src="https://unpkg.com/@jspsych/plugin-image-button-response@1.1.2"></script>
-    <script src="https://unpkg.com/@jspsych/plugin-categorize-image@1.1.2"></script>
-    <script src="https://unpkg.com/@jspsych/plugin-fullscreen@1.2.0"></script>
-    <script src="https://unpkg.com/@jspsych/plugin-html-slider-response@1.1.2"></script> 
-    <script src="https://unpkg.com/@jspsych/plugin-survey-likert@1.1.2"></script>
+    <!-- <link href="https://unpkg.com/jspsych@7.3.1/css/jspsych.css" rel="stylesheet" type="text/css" /> -->
+    <link href="jspsych/jspsych.css" rel="stylesheet" type="text/css" />
+    <!-- <script src="https://unpkg.com/jspsych@7.3.1"></script> -->
+    <script src="jspsych/jspsych.js"></script>
+    <!-- <script src="https://unpkg.com/@jspsych/plugin-preload@1.1.2"></script> -->
+    <script src="jspsych/plugin-preload.js"></script>
+    <!-- <script src="https://unpkg.com/@jspsych/plugin-html-keyboard-response@1.1.2"></script> -->
+    <script src="jspsych/plugin-html-keyboard-response.js"></script>
+    <!-- <script src="https://unpkg.com/@jspsych/plugin-html-button-response@1.1.2"></script> -->
+    <script src="jspsych/plugin-html-button-response.js"></script>
+    <!-- <script src="https://unpkg.com/@jspsych/plugin-image-keyboard-response@1.1.2"></script> -->
+    <!-- <script src="https://unpkg.com/@jspsych/plugin-image-button-response@1.1.2"></script> -->
+    <!-- <script src="https://unpkg.com/@jspsych/plugin-categorize-image@1.1.2"></script> -->
+    <script src="jspsych/plugin-categorize-image.js"></script>
+    <!-- <script src="https://unpkg.com/@jspsych/plugin-fullscreen@1.2.0"></script> -->
+    <script src="jspsych/plugin-fullscreen.js"></script>
+    <!-- <script src="https://unpkg.com/@jspsych/plugin-html-slider-response@1.1.2"></script>  -->
+    <script src="jspsych/plugin-html-slider-response.js"></script> 
+    <!-- <script src="https://unpkg.com/@jspsych/plugin-survey-likert@1.1.2"></script> -->
+    <script src="jspsych/plugin-survey-likert.js"></script>
+    <!-- <script src="https://unpkg.com/@jspsych/plugin-survey-html-form@1.0.2"></script> -->
+    <script src="jspsych/plugin-survey-html-form.js"></script>
     <script src='https://ajax.googleapis.com/ajax/libs/jquery/2.2.4/jquery.min.js'></script>
     <script src="util.js"></script>
 </head>
@@ -86,204 +97,239 @@
         choices: ['Continue'],
     }
 
-    ///// questions about stability, cost, and aesthetics 
-    var comparison_questions = [`<p>Play the following videos: which building is more likely to collapse during an earthquake? </p>
-                                <p><small>Select 1 if the left building is more likely to collapse, 
-                                2-6 for in between, and 7 if the right building is more likely to collapse. Note that all blocks are the same size. </small></p>`,
-                                `<p>Play the following videos: which building seems more expensive cost wise to construct? </p>
-                                <p><small>Select 1 if the left building seems more expensive,
-                                2-6 for in between, and 7 if the right building seems more expensive. Note that all blocks are the same size. </small></p>`,
-                                `<p>Play the following videos: which building's appearance do you prefer aesthetically'? </p>
-                                <p><small>Select 1 if the left building is more aesthetic, 
-                                2-6 for in between, and 7 if the right building is more aesthetic. Note that all blocks are the same size.</small></p>`
-                            ];
-    
-    var left_video_path = `videos/t_tower/t_towers0.mp4`;
-    var right_video_path = `videos/t_tower/t_towers3.mp4`;
+    ////
+    var t = [
+        `videos/t_towers/0_0.mp4`,
+        `videos/t_towers/1_0.mp4`,
+        `videos/t_towers/2_0.mp4`,
+        `videos/t_towers/3_0.mp4`,
+        `videos/t_towers/4_0.mp4`,
+        `videos/t_towers/5_0.mp4`
+    ] //string of sorted by height
+    var h5 = [
+        `videos/5_tall/5_0.mp4`,
+        `videos/5_tall/0.251875_4_1693092812.6565719.mp4`,
+        `videos/5_tall/0.51_6_1693093115.2289646.mp4`,
+        `videos/5_tall/0.584375_1_1693092890.8446198.mp4`,
+        `videos/5_tall/0.73125_1_1693093162.5186362.mp4`
+    ] //string of sorted by stability
+    var h8 = [
+        `videos/8_tall/8_0.mp4`,
+        `videos/8_tall/0.4714285714285714_3_1693094475.5026772.mp4`,
+        `videos/8_tall/0.5039285714285714_1_1693094729.2312584.mp4`,
+        `videos/8_tall/0.7585714285714285_6_1693094665.55217.mp4`,
+        `videos/8_tall/0.9428571428571428_7_1693094736.4615016.mp4`
+    ]
+    var h10 = [
+        `videos/10_tall/10_0.mp4`,
+        `videos/10_tall/0.5013888888888888_6_1693100678.0054057.mp4`,
+        `videos/10_tall/0.8277777777777778_8_1693100262.8454077.mp4`,
+        `videos/10_tall/0.8277777777777778_8_1693100262.8454077.mp4`,
+        `videos/10_tall/0.9833333333333334_4_1693100566.4094222.mp4`
+    ]
 
-    var comparison_trial_likert = {
-        type: jsPsychSurveyLikert,
-        preamble: `${comparison_questions[0]}` + // alterate this question line
-                    `<div id="wrapper"> 
-                    <video id="videoleft" width="400" height="300" poster="images/video.jpg" controls="controls" preload="none" disablepictureinpicture controlsList="nofullscreen nodownload noremoteplayback noplaybackrate"> 
-                        <source type="video/mp4" src="videos/t_tower/t_towers0.mp4" ${left_video_path} /> 
-                    </video>
-                    <video id="videoright" width="400" height="300" poster="images/video.jpg" controls="controls" preload="none" disablepictureinpicture controlsList="nofullscreen nodownload noremoteplayback noplaybackrate"> 
-                        <source type="video/mp4" src="videos/t_tower/t_towers5.mp4" ${right_video_path}}/> 
-                    </video>
-                    <div class="clear"></div> 
-                </div>`,
-        questions: [
-            {
-            prompt: '',//"I like vegetables.", 
-            labels: ['1 (Left)','2','3','4','5','6','7 (Right)']
-            }
-        ]
+    var groupings = {
+        1: [[t[4], t[0]], [t[2],t[3]],[h10[4], h10[2]], [h10[2], h10[3]], [h5[2], h5[1]], [h8[0], h8[4]], 
+                    [h5[1], h8[2]], [h5[0], h10[2]], [h10[2], h5[3]], [h8[0], h10[1]]],
+            // {T_tower: [[t[4], t[0]], [t[2],t[3]]], //indices 
+            // same_height: [[h10[4], h10[2]], [h10[2], h10[3]], [h5[2], h5[1]], [h8[0], h8[4]]],
+            // diff_height: [[h5[1], h8[2]], [h5[0], h10[2]], [h10[2], h5[3]], [h8[0], h10[1]]]
+            //}, 
+        2:[[t[5], t[2]], [t[3], t[1]], [h5[4], h5[0]], [h8[3], h8[2]], [h10[1], h10[3]],[h5[3], h5[4]],
+                    [h10[3], h8[0]], [h8[4], h5[3]], [h8[4], h10[1]], [h5[4], h10[2]]],
+            //{T_tower: [[t[5], t[2]], [t[3], t[1]]],
+            // same_height: [[h5[4], h5[0]], [h8[3], h8[2]], [h10[1], h10[3]],[h5[3], h5[4]]],
+            // diff_height: [[h10[3], h8[0]], [h8[4], h5[3]], [h8[4], h10[1]], [h5[4], h10[2]]]
+
+            // }, 
+        3: [[t[4], t[5]], [t[4], t[3]], [h10[3], h10[0]], [h8[2], h8[3]], [h5[4], h5[2], [h8[0], h8[1]]], 
+                    [h5[3], h8[1]], [h10[4], h5[0]], [h8[2], h5[0]], [h10[2], h8[3]]]
+            //{T_tower: [[t[4], t[5]], [t[4], t[3]]],
+            // same_height: [[h10[3], h10[0]], [h8[2], h8[3]], [h5[4], h5[2], [h8[0], h8[1]]]],
+            // diff_height: [[h5[3], h8[1]], [h10[4], h5[0]], [h8[2], h5[0]], [h10[2], h8[3]]]}
         };
 
-    var comparison_trial = {
-        type: jsPsychHtmlSliderResponse,
-        stimulus: `${comparison_questions[0]}` + // alterate this question line
-                    `<div id="wrapper"> 
-                    <video id="videoleft" width="400" height="300" poster="images/video.jpg" controls="controls" preload="none" disablepictureinpicture controlsList="nofullscreen nodownload noremoteplayback noplaybackrate"> 
-                        <source type="video/mp4" src="videos/t_tower/t_towers0.mp4" ${left_video_path} /> 
-                    </video>
-                    <video id="videoright" width="400" height="300" poster="images/video.jpg" controls="controls" preload="none" disablepictureinpicture controlsList="nofullscreen nodownload noremoteplayback noplaybackrate"> 
-                        <source type="video/mp4" src="videos/t_tower/t_towers5.mp4" ${right_video_path}}/> 
-                    </video>
-                    <div class="clear"></div> 
-                </div>`,
-        max: 60,
-        step: 10,
-        require_movement: true,
-        labels: ['1 (Left)','2','3','4','5','6','7 (Right)']
-        };
 
-    timeline.push(comparison_trial);
+    // console.log(groupings[1]);
 
-    ///// question about materials 
-    var mat_video_path = `videos/t_tower/t_towers0.mp4`;
-    var material_trial = {
-        type: jsPsychHtmlButtonResponse,
-        stimulus: `
-                    <p>What material should this building be made from for most longevity?</p> 
-                    <video id="videoleft" width="500" poster="images/video.jpg" controls="controls" preload="none" disablepictureinpicture controlsList="nofullscreen nodownload noremoteplayback noplaybackrate"> 
-                        <source type="video/mp4" src="videos/t_tower/t_towers0.mp4" ${mat_video_path} /> 
-                    </video>`,
-        choices: ['Wood', 'Metal', 'Glass', 'Brick', 'Concrete'],
-        prompt: ""
-        };
-    
-    timeline.push(material_trial);
+    /// question about materials 
 
-    // // Define some variables that will be shared across all image trials
-    // var prompt_str = 'Was the person pictured correctly wearing a face mask?';
-    // var choices = ['Correctly wearing mask', 'Incorrectly wearing mask', 'Not wearing mask'];
-    // var maintain_aspect_ratio = true;
-    // var stimulus_width = 300; // Image width in pixels (null will use native width)
-    // var stimulus_duration = 500; // Image presentation duration in ms
-
-    // Programatically prepare a list of variables that will vary by trials
-    var timeline_variables_for_trials = [];
-    var factors = {
-        condition: [0, 1, 2], // 3 conditions numbered 0, 1, 2
-        image_num: arange(50, 53, 1), // 3 images numbered 50 to 52
-    };
-    var full_design = jsPsych.randomization.factorial(factors, 1);
-    var unique_stimulus_duration = [250, 750];
-    var list_stimulus_duration = jsPsych.randomization.repeat(
-        unique_stimulus_duration,
-        full_design.length / unique_stimulus_duration.length);
-    for (var itr_trial = 0; itr_trial < full_design.length; itr_trial += 1) {
-        var condition = full_design[itr_trial].condition;
-        var image_num = full_design[itr_trial].image_num;
-        timeline_variables_for_trials.push({
-            image_path: `images/condition${condition}/${image_num}.png`,
-            stimulus_duration: list_stimulus_duration[itr_trial],
-            key_answer: `${condition}`,
-        });
-    }
-    console.log(full_design);
-    console.log(JSON.stringify(timeline_variables_for_trials));
-
-    // programatically make trials
-    var tt_timeline_variables = [];
-    var t_towers = arange(0, 5, 1);
-
-
-    example_stim = `<div style="width:500px;">
-                <p>How likely is it that team A will win this match?</p>
-                <div style="width:240px; float: left;">
-                    <p>TEAM A</p>
-                    <p>10 wins, 5 losses, 6 draws</p>
-                </div>
-                <div style="width:240px; float: right;">
-                    <p>TEAM B</p>
-                    <p>6 wins, 4 losses, 11 draws</p>
-                </div>
-                </div>`
-
-    
-
-    // Prepare timeline for the individual trials
-    var timeline_for_trials = [
-        // {
-        //     type: jsPsychImageButtonResponse, // This trial will use the "image-button-response" plugin
-        //     stimulus: jsPsych.timelineVariable('image_path'),
-        //     maintain_aspect_ratio: maintain_aspect_ratio,
-        //     stimulus_width: stimulus_width,
-        //     stimulus_duration: jsPsych.timelineVariable('stimulus_duration'),
-        //     prompt: prompt_str,
-        //     choices: choices,
-        //     data: {
-        //         stimulus_duration: jsPsych.timelineVariable('stimulus_duration'),
-        //     },
-        // },
-        {
-            type: jsPsychHtmlSliderResponse,
-            //prompt: prompt_str,
-            stimulus: `
-                    <p>How likely is it that team A will win this match?</p>
-                    <div id="wrapper"> 
-                    <video id="home1" width="400" height="300" poster="images/video.jpg" controls="controls" preload="none"> 
-                        <source type="video/mp4" src="videos/t_tower/t_towers0.mp4" /> 
-                    </video>
-                    <video id="home2" width="400" height="300" poster="images/video.jpg" controls="controls" preload="none"> 
-                        <source type="video/mp4" src="videos/t_tower/t_towers5.mp4" /> 
-                    </video>
-                    <div class="clear"></div> 
-                </div>`,
-            min: 0,
-            max: 7,
-            require_movement: true,
-            labels: ['1 (Left Tower)','2','3','4','5','6','7 (Right Tower)']
-        },
-
-        // {
-        //     type: jsPsychCategorizeImage, // This trial will use the "categorize-image" plugin
-        //     stimulus: jsPsych.timelineVariable('image_path'),
-        //     maintain_aspect_ratio: maintain_aspect_ratio,
-        //     stimulus_width: stimulus_width,
-        //     stimulus_duration: jsPsych.timelineVariable('stimulus_duration'),
-        //     prompt: [
-        //         '<h3>0 = No mask</h3>' +
-        //         '<h3>1 = Mask worn correctly</h3>' +
-        //         '<h3>2 = Mask worn incorrectly</h3>'
-        //     ],
-        //     choices: ['0', '1', '2'],
-        //     show_stim_with_feedback: false,
-        //     feedback_duration: 1000,
-        //     correct_text: 'Correct',
-        //     incorrect_text: 'The correct response was %ANS%',
-        //     text_answer: jsPsych.timelineVariable('key_answer'),
-        //     key_answer: jsPsych.timelineVariable('key_answer'),
-        //     data: {
-        //         key_answer: jsPsych.timelineVariable('key_answer'),
-        //         stimulus_duration: jsPsych.timelineVariable('stimulus_duration'),
-        //     },
-        // },
-    ];
-
-    // Add the trials to the main timeline
-    var trials = {
-        timeline: timeline_for_trials,
-        timeline_variables: timeline_variables_for_trials,
-        randomize_order: true,
-    };
-    // timeline.push(trials);
-
-    var last_page = {
+    var mat_page = {
         type: jsPsychHtmlButtonResponse, // This trial will use the "html-button-response" plugin
         stimulus: [
-            '<h2>Press the button below to end.</h2>' +
-            '<p>Thank you for participating!</p>'
+            '<h2>Construction material</h2>' +
+            '<p>Initially, carefully observe each structure and make a selection among wood, metal, glass, brick, and concrete as the optimal construction material for ensuring longevity. </p>' 
         ],
-        choices: ['End survey'],
+        choices: ['Continue'],
     };
+    timeline.push(mat_page);
+
+    function make_mat_trial(mat_path){
+        // var material_trial = {
+        //     type: jsPsychHtmlButtonResponse,
+        //     stimulus: `
+        //                 <p>Play the video: What material should this building be made from for most longevity?</p> 
+        //                 <video id="videoleft" width="500" controls="controls" preload="none" disablepictureinpicture controlsList="nofullscreen nodownload noremoteplayback noplaybackrate"> 
+        //                     <source type="video/mp4" src="${mat_path}"  /> 
+        //                 </video>`,
+        //     choices: ['Wood', 'Metal', 'Glass', 'Brick', 'Concrete'],
+        //     prompt: "",
+        //     data: {
+        //         stimulus_video: mat_path,
+        // }};
+
+        var material_trial = {
+            type: jsPsychHtmlSliderResponse,
+            stimulus: `
+                        <p>Play the video: What material should this building be made from for most longevity?</p> 
+                        <video autoplay id="videoleft" width="500" height = "500" controls="controls" preload="none" disablepictureinpicture controlsList="nofullscreen nodownload noremoteplayback noplaybackrate"> 
+                            <source type="video/mp4" src="${mat_path}"  /> 
+                        </video>`,
+            max: 40,
+            slider_start: 20,
+            step: 10,
+            require_movement: true,
+            labels: ['Wood', 'Metal', 'Glass', 'Brick', 'Concrete'],
+            data: {
+                stimulus_video: mat_path,
+        }};
+
+        return material_trial}
+    
+    var mat_trial_order = jsPsych.randomization.shuffle([make_mat_trial(t[5]), 
+            make_mat_trial(h8[3]), 
+            make_mat_trial(h10[2])]);
+    
+    timeline.push.apply(timeline, mat_trial_order)
+    // console.log(mat_trial_order)
+
+    ///// questions about stability, cost, and aesthetics 
+    var comparison_questions = {stability:`<p>Play the following videos: which building is more likely to collapse during an earthquake? </p>
+                                <p><small>Select 1 if the left building is more likely to collapse, 
+                                2-6 for in between, and 7 if the right building is more likely to collapse. Note that all blocks are the same size. </small></p>`,
+                                expense: `<p>Play the following videos: which building seems more expensive cost wise to construct? </p>
+                                <p><small>Select 1 if the left building seems more expensive,
+                                2-6 for in between, and 7 if the right building seems more expensive. Note that all blocks are the same size. </small></p>`,
+                                aesthetics: `<p>Play the following videos: which building's appearance do you prefer aesthetically'? </p>
+                                <p><small>Select 1 if the left building is more aesthetic, 
+                                2-6 for in between, and 7 if the right building is more aesthetic. Note that all blocks are the same size.</small></p>`
+                                };
+    
+    // var left_video_path = t[0];//`videos/t_tower/t_towers0.mp4`;
+    // var right_video_path = h10[3];//`videos/t_tower/t_towers3.mp4`;
+    // console.log(groupings[group_no])
+
+    // function trial_pair(group) {
+    function make_comp_trial(comp_question, left_path, right_path, group_n){
+        var comparison_trial = {
+            type: jsPsychHtmlSliderResponse,
+            stimulus: `${comp_question}` + // alterate this question line
+                        `<div id="wrapper"> 
+                        <video autoplay id="videoleft" width="400" height="400" controls="controls" preload="none" disablepictureinpicture controlsList="nofullscreen nodownload noremoteplayback noplaybackrate"> 
+                            <source type="video/mp4" src="${left_path}" /> 
+                        </video>
+                        <video autoplay id="videoright" width="400" height="400" controls="controls" preload="none" disablepictureinpicture controlsList="nofullscreen nodownload noremoteplayback noplaybackrate"> 
+                            <source type="video/mp4" src="${right_path}" /> 
+                        </video>
+                        <div class="clear"></div> 
+                    </div>`,
+            max: 60,
+            slider_start: 30,
+            step: 1,
+            require_movement: true,
+            labels: ['1 (Left)','2','3','4','5','6','7 (Right)'],
+            data: {
+                    grouping_no: group_n,
+                    stimulus_left_video: left_path,
+                    stimulus_right_video: right_path,
+            }
+            };
+        return comparison_trial};
+
+    // make array for each type of comp question 
+    var stability_trials = []
+    var expense_trials = []
+    var aesthetics_trials = []
+
+    var group_no = jsPsych.randomization.sampleWithoutReplacement([1,2,3],1)[0];
+    var pairs = groupings[group_no];
+    // console.log(`group no randomly assigned: ${group_no}`);
+    // console.log(make_comp_trial(comparison_questions.stability, pairs[0][0], pairs[0][1],group_no))
+
+    for (var itr_trial = 0; itr_trial < pairs.length; itr_trial += 1) {   
+        stability_trials.push(make_comp_trial(comparison_questions.stability, pairs[itr_trial][0], pairs[itr_trial][1],group_no));
+        expense_trials.push(make_comp_trial(comparison_questions.expense, pairs[itr_trial][0], pairs[itr_trial][1],group_no));
+        aesthetics_trials.push(make_comp_trial(comparison_questions.aesthetics, pairs[itr_trial][0], pairs[itr_trial][1],group_no));
+    };
+
+    var stability_trial_order = jsPsych.randomization.shuffle([stability_trials]);
+    var expense_trial_order = jsPsych.randomization.shuffle([expense_trials]);
+    var aesthetics_trial_order = jsPsych.randomization.shuffle([aesthetics_trials]);
+    // console.log(stability_trial_order[0])
+    // timeline.push(stability_trial_order[0])
+
+    ///
+    var stability_page = {
+        type: jsPsychHtmlButtonResponse, // This trial will use the "html-button-response" plugin
+        stimulus: [
+            '<h2>Possibility of collapsing</h2>' +
+            '<p>Compare the two structures and select 1 if the left building is more likely to collapse, 2-6 for in between, </p>'+
+            '<p>and 7 if the right building is more likely to collapse. Note that all blocks are the same size. </p>' 
+        ],
+        choices: ['Continue'],
+    };
+    timeline.push(stability_page);
+    timeline.push.apply(timeline, stability_trial_order[0]);
+
+    ///
+    var expense_page = {
+        type: jsPsychHtmlButtonResponse, // This trial will use the "html-button-response" plugin
+        stimulus: [
+            '<h2>Building expense</h2>' +
+            '<p>Compare the two structures and select 1 if the left building is more expensive to build, 2-6 for in between, </p>'+
+            '<p>and 7 if the right building is more expensive to build. Note that all blocks are the same size. </p>' 
+        ],
+        choices: ['Continue'],
+    };
+    timeline.push(expense_page);
+    timeline.push.apply(timeline, expense_trial_order[0]);
+
+    ///
+    var aesthetics_page = {
+        type: jsPsychHtmlButtonResponse, // This trial will use the "html-button-response" plugin
+        stimulus: [
+            '<h2>Architectural aesthetics</h2>' +
+            '<p>Compare the two structures and select 1 if the left building is more aesthetics, 2-6 for in between, </p>'+
+            '<p>and 7 if the right building is more aesthetics. Note that all blocks are the same size. </p>' 
+        ],
+        choices: ['Continue'],
+    };
+    timeline.push(aesthetics_page);
+    timeline.push.apply(timeline, aesthetics_trial_order[0]);
+
+
+    // var last_page = {
+    //     type: jsPsychHtmlButtonResponse, // This trial will use the "html-button-response" plugin
+    //     stimulus: [
+    //         '<h2>Press the button below to end.</h2>' +
+    //         '<p>Thank you for participating!</p>'
+    //     ],
+    //     choices: ['End survey'],
+    // };
+
+    var last_page = {
+        type: jsPsychSurveyHtmlForm,
+        preamble: '<p>Thank you for participating! Please click <b>submit survey</b> to finish. </p>',
+        html: '<p> (Optional) To enter the raffle, enter your kerb here:  <input type="text" id="test-resp-box" name="response" size="10" /></p>',
+        autofocus: 'test-resp-box',
+        button_label: 'Submit survey'
+        };
+
     timeline.push(last_page);
 
     // Run the timeline
     jsPsych.run(timeline);
+    
 </script>
 
 </html>
